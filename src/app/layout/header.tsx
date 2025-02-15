@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link";
-import { Menu } from "lucide-react"; // Mobile menu icon
+import { Menu, X } from "lucide-react"; // Mobile menu icons
 import { useState } from "react";
 
 export default function HeaderPage() {
@@ -17,24 +17,22 @@ export default function HeaderPage() {
         {/* Mobile Menu Button */}
         <div className="md:hidden">
           <button onClick={() => setIsOpen(!isOpen)}>
-            <Menu className="w-6 h-6 text-white cursor-pointer" />
+            {isOpen ? <X className="w-6 h-6 text-white" /> : <Menu className="w-6 h-6 text-white" />}
           </button>
         </div>
 
         {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="absolute top-16 right-6 bg-black border border-gray-700 shadow-lg p-4 rounded-lg">
-            <ul className="flex flex-col space-y-4 text-lg">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="hover:text-blue-400" onClick={() => setIsOpen(false)}>
-                    {link.text}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <div className={`absolute top-16 right-6 bg-black border border-gray-700 shadow-lg p-4 rounded-lg w-48 transition-transform duration-300 ease-in-out ${isOpen ? 'block' : 'hidden'}`}>
+          <ul className="flex flex-col space-y-4 text-lg">
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="hover:text-blue-400" onClick={() => setIsOpen(false)}>
+                  {link.text}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
 
         {/* Desktop Navigation */}
         <ul className="hidden md:flex space-x-6 text-lg">
