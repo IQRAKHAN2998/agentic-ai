@@ -1,20 +1,19 @@
-"use client"
-import React from "react";
+"use client";
+import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
 
 const FeaturesPage = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true }); // Animate once when it comes into view
+  const isInView = useInView(ref, { once: true, margin: "-10% 0px -10% 0px" }); // Improved trigger
 
   return (
     <div
       id="keypoints"
+      ref={ref}
       className="flex flex-col items-center justify-center min-h-screen px-6 bg-black text-white mt-16"
     >
       {/* Main Heading with Smooth Animation */}
       <motion.h2
-        ref={ref}
         initial={{ opacity: 0, y: -50 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
@@ -24,13 +23,14 @@ const FeaturesPage = () => {
       </motion.h2>
 
       {/* Features List */}
-      <div className="max-w-3xl space-y-8">
+      <div className="max-w-3xl space-y-6">
         {features.map((feature, index) => (
           <motion.div
             key={feature.title}
-            initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
+            initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }} // Reduced x movement
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 1.5, delay: 0.3 + index * 0.2, ease: "easeOut" }}
+            transition={{ duration: 1, delay: 0.3 + index * 0.2, ease: "easeOut" }}
+            className="relative flex flex-col items-center"
           >
             <FeatureItem title={feature.title}>{feature.description}</FeatureItem>
           </motion.div>
@@ -68,7 +68,7 @@ const features = [
 const FeatureItem = ({ title, children }: { title: string; children: React.ReactNode }) => {
   return (
     <div className="text-center">
-      <h3 className="text-3xl font-bold mb-2 bg-gradient-to-r from-yellow-400 via-red-500 to-pink-600 bg-clip-text text-transparent">
+      <h3 className="text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-r from-yellow-400 via-red-500 to-pink-600 bg-clip-text text-transparent">
         {title}
       </h3>
       <p className="text-lg md:text-xl text-gray-300">{children}</p>
